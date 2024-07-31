@@ -1,0 +1,2 @@
+# Globalping
+Globalping Automation
