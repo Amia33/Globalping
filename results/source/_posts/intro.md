@@ -9,4 +9,4 @@ sticky: 100
 
 Globalping Automation
 
-![Flowchart]("https://ping.amia.work/flowchart.png")
+![Flowchart](https://ping.amia.work/flowchart.png)
