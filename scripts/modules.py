@@ -1,7 +1,11 @@
 """Modules"""
 
 from time import sleep
-from datetime import datetime
+from datetime import (
+    datetime,
+    timezone,
+    timedelta
+)
 from pymongo import MongoClient
 from pandas import DataFrame
 import requests
@@ -141,7 +145,7 @@ def write_probe_id(measurements, client):
 def write_measurement(probes_written, client):
     """Write measurement"""
     upload = []
-    colle = "measurements-" + datetime.now().strftime("%Y-%m-%d")
+    colle = "measurements-" + datetime.now(timezone.utc).strftime("%Y-%m-%d")
     for measurement in probes_written:
         created_time = datetime.strptime(
             measurement["createdAt"], "%Y-%m-%dT%H:%M:%S.%fZ")
@@ -164,7 +168,7 @@ def write_measurement(probes_written, client):
 def write_result(probes_written, client):
     """Write result"""
     upload = []
-    colle = "results-" + datetime.now().strftime("%Y-%m-%d")
+    colle = "results-" + datetime.now(timezone.utc).strftime("%Y-%m-%d")
     for measurement in probes_written:
         for result in measurement["results"]:
             rtts = []
