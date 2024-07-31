@@ -1,0 +1,74 @@
+name: 'Automation'
+on:
+  schedule:
+    - cron: '4/5 0-5,7-23 * * *'
+    #- cron: '11 6 * * *'
+    #- cron: '27 6 * * 1'
+    #- cron: '36 6 1 * *'
+    #- cron: '50 6 1 1 *'
+  workflow_dispatch:
+jobs:
+  automation:
+    name: Automation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Initialize Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install Python Dependencies
+        run: pip install -r requirements.txt
+      - name: Perform Measure
+        run: |
+          started=$(date -u +%Y-%m-%dT%T.%3NZ)
+          python scripts/measure.py
+          ended=$(date -u +%Y-%m-%dT%T.%3NZ)
+          sed -E -e "s/\|\sMeasure\s\|(.*)\|(.*)\|/\| Measure \| $started \| $ended \|/" README.md > README.md.new
+          rm README.md
+          mv README.md.new README.md
+      - name: Perform Daily
+        if: ${{ github.event.schedule == '11 6 * * *' }}
+        run: |
+          started=$(date -u +%Y-%m-%dT%T.%3NZ)
+          python scripts/daily.py
+          ended=$(date -u +%Y-%m-%dT%T.%3NZ)
+          sed -E -e "s/\|\s\sDaily\s\s\|(.*)\|(.*)\|/\|  Daily  \| $started \| $ended \|/" README.md > README.md.new
+          rm README.md
+          mv README.md.new README.md
+      - name: Perform Weekly
+        if: ${{ github.event.schedule == '27 6 * * 1' }}
+        run: |
+          started=$(date -u +%Y-%m-%dT%T.%3NZ)
+          python scripts/weekly.py
+          ended=$(date -u +%Y-%m-%dT%T.%3NZ)
+          sed -E -e "s/\|\sWeekly\s\s\|(.*)\|(.*)\|/\| Weekly  \| $started \| $ended \|/" README.md > README.md.new
+          rm README.md
+          mv README.md.new README.md
+      - name: Perform Monthly
+        if: ${{ github.event.schedule == '36 6 1 * *' }}
+        run: |
+          started=$(date -u +%Y-%m-%dT%T.%3NZ)
+          python scripts/monthly.py
+          ended=$(date -u +%Y-%m-%dT%T.%3NZ)
+          sed -E -e "s/\|\sMonthly\s\|(.*)\|(.*)\|/\| Monthly \| $started \| $ended \|/" README.md > README.md.new
+          rm README.md
+          mv README.md.new README.md
+      - name: Perform Yearly
+        if: ${{ github.event.schedule == '50 6 1 1 *' }}
+        run: |
+          started=$(date -u +%Y-%m-%dT%T.%3NZ)
+          python scripts/yearly.py
+          ended=$(date -u +%Y-%m-%dT%T.%3NZ)
+          sed -E -e "s/\|\sYearly\s\s\|(.*)\|(.*)\|/\| Yearly  \| $started \| $ended \|/" README.md > README.md.new
+          rm README.md
+          mv README.md.new README.md
+      - name: Commit changes
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add .
+          git commit -m 'Automation Update'
+          git push

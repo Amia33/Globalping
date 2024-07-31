@@ -1,0 +1,14 @@
+version: 2
+updates:
+  - package-ecosystem: 'npm'
+    directory: '/results'
+    schedule:
+      interval: 'daily'
+      time: '18:06'
+      timezone: 'Etc/UTC'
+  - package-ecosystem: 'pip'
+    directory: '/scripts'
+    schedule:
+      interval: 'daily'
+      time: '10:47'
+      timezone: 'Etc/UTC'
