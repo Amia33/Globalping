@@ -11,7 +11,7 @@ permalink: :category/:hash/
 pretty_urls:
   trailing_index: false
   trailing_html: false
-future: false
+future: true
 default_category: default
 feed:
   icon: /favicon.ico
