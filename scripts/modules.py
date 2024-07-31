@@ -114,10 +114,7 @@ def write_probe_id(measurements, client):
             except KeyError:
                 create_probe = True
             else:
-                if search_probes.empty is True:
-                    create_probe = True
-                else:
-                    create_probe = False
+                create_probe = search_probes.empty
             finally:
                 if create_probe is True:
                     probe_id = new_probe
