@@ -14,4 +14,4 @@ pretty_urls:
 future: false
 default_category: default
 feed:
-  icon: favicon.ico
+  icon: /favicon.ico
