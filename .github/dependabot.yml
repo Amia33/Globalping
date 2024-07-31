@@ -7,7 +7,7 @@ updates:
       time: '18:06'
       timezone: 'Etc/UTC'
   - package-ecosystem: 'pip'
-    directory: '/scripts'
+    directory: '/'
     schedule:
       interval: 'daily'
       time: '10:47'
