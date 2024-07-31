@@ -1,11 +1,11 @@
 title: Globalping Automation
-subtitle: 'Amia33 Workshop'
-description: 'Amia33/Globalping'
+subtitle: Amia33 Workshop
+description: Amia33/Globalping
 keywords:
   - Globalping
   - Automation
 author: Amia33
-timezone: 'UTC'
+timezone: UTC
 url: https://ping.amia.work
 permalink: :category/:hash/
 pretty_urls:
@@ -13,3 +13,5 @@ pretty_urls:
   trailing_html: false
 future: false
 default_category: default
+feed:
+  icon: favicon.ico
