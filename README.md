@@ -14,30 +14,4 @@ Globalping Automation
 
 ## Workflow
 
-```mermaid
-flowchart LR
-  GI1 --> |locations|GI2
-  GI2 --> GI3  --> GI4 --> MDB1 & MDB2 & MDB3
-  GI3 --> |First id|GI2
-  MDB1 --> MDB4
-  MDB2 --> MDB5
-  MDB3 --> H1
-  MDB4 & MDB5 --> H2
-  subgraph GlobalpingIo
-    GI1(list_probes)
-    GI2(create_measurement)
-    GI3(measurement_ids)
-    GI4(get_measurement)
-  end
-  subgraph MongoDB
-    MDB1(results_temp)
-    MDB2(measurements_temp)
-    MDB3(probes)
-    MDB4(results_daily)
-    MDB5(measurements_daily)
-  end
-  subgraph Hexo
-    H1(probes.md)
-    H2(reports.md)
-  end
-```
+![Flowchart](results/source/flowchart.png)
