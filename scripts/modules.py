@@ -7,7 +7,10 @@ from datetime import (
     timedelta
 )
 from pymongo import MongoClient
-from pandas import DataFrame
+from pandas import (
+    DataFrame,
+    json_normalize
+)
 import requests
 
 
@@ -188,3 +191,220 @@ def write_result(probes_written, client):
             }
             upload.append(result_data)
     client[colle].insert_many(upload)
+
+
+def daily_measurement(target, yesterday, filtered_measurements):
+    """Calculate daily measurement"""
+    durations = filtered_measurements["duration"].tolist()
+    probe_ids = filtered_measurements["probe_ids"].tolist()
+    probe_counts = [len(probe_id) for probe_id in probe_ids]
+    data = {
+        "_id": target + "-" + yesterday,
+        "expires": datetime.now(timezone.utc) + timedelta(days=370),
+        "count": len(filtered_measurements),
+        "duration": {
+            "min": min(durations),
+            "max": max(durations),
+            "total": round(sum(durations), 3)
+        },
+        "probe_ids": {
+            "min": min(probe_counts),
+            "max": max(probe_counts),
+            "total": sum(probe_counts)
+        }
+    }
+    return data
+
+
+def filter_result(filtered_measurements, probes_count):
+    """Filter result and group them by probe id"""
+    data = {probe_id: [] for probe_id in range(1, probes_count+1)}
+    for measurement in filtered_measurements.itertuples(index=False):
+        for probe_id in measurement[-1]:
+            data[probe_id].append(measurement[0] + "-" + str(probe_id))
+    for probe_id in range(1, probes_count+1):
+        if not data[probe_id]:
+            data.pop(probe_id, None)
+    return data
+
+
+def write_daily_results(target, probes_count, results_df, filtered_result_ids):
+    """Calculate daily results"""
+    results_upload = []
+    prefix = target + "-" + (datetime.now(timezone.utc) -
+                             timedelta(days=1)).strftime("%Y%m%d") + "-"
+    for probe_id in range(1, probes_count + 1):
+        try:
+            filtered_results = results_df.loc[
+                (results_df["_id"].isin(filtered_result_ids[probe_id]))
+            ]
+        except KeyError:
+            continue
+        timings = json_normalize(filtered_results["timings"])
+        packets = json_normalize(filtered_results["packets"])
+        data = {
+            "_id": prefix + str(probe_id),
+            "expires": datetime.now(timezone.utc) + timedelta(days=370),
+            "count": len(filtered_results),
+            "timings": {
+                "min": min(timings["min"].tolist()),
+                "max": max(timings["max"].tolist()),
+                "total": round(sum(timings["total"].tolist()), 3)
+            },
+            "packets": {
+                "total": {
+                    "min": min(packets["total"].tolist()),
+                    "max": max(packets["total"].tolist()),
+                    "total": sum(packets["total"].tolist())
+                },
+                "rcv": {
+                    "min": min(packets["rcv"].tolist()),
+                    "max": max(packets["rcv"].tolist()),
+                    "total": sum(packets["rcv"].tolist())
+                }
+            }
+        }
+        results_upload.append(data)
+    return results_upload
+
+
+def write_daily(targets, client):
+    """Write daily"""
+    yesterday = (datetime.now(timezone.utc) -
+                 timedelta(days=1)).strftime("%Y-%m-%d")
+    measurements_df = DataFrame(client["measurements-" + yesterday].find())
+    results_df = DataFrame(client["results-" + yesterday].find())
+    probes_count = DataFrame(client["probes"].find())["_id"].tolist()[-1]
+    measurements_upload = []
+    for target in targets:
+        filtered_measurements = measurements_df.loc[
+            (measurements_df["target"] == target)
+        ]
+        filtered_result_ids = filter_result(
+            filtered_measurements, probes_count)
+        measurements_data = daily_measurement(
+            target, yesterday, filtered_measurements)
+        results_upload = write_daily_results(
+            target, probes_count, results_df, filtered_result_ids)
+        client["results"].insert_many(results_upload)
+        measurements_upload.append(measurements_data)
+    client["measurements"].insert_many(measurements_upload)
+
+
+def drop_colle(client):
+    """Drop temporary collections"""
+    yesterday = (datetime.now(timezone.utc) -
+                 timedelta(days=1)).strftime("%Y-%m-%d")
+    client["measurements-" + yesterday].drop()
+    client["results-" + yesterday].drop()
+
+
+def output_probes(client):
+    """Output probes.md"""
+    probes_df = DataFrame(client["probes"].find())
+    with open("results/source/_posts/probes.md", "w", encoding="utf-8") as f:
+        f.write("---\n" +
+                "title: Probes\n" +
+                "date: 2024/08/01 00:00:00\n" +
+                "updated: " +
+                datetime.now(timezone.utc).strftime("%Y/%m/%d %H:%M:%S") +
+                "\ncomments: false\n" +
+                "categories: probes\n" +
+                "sticky: 50\n" +
+                "---\n\n" +
+                "**" +
+                str(len(probes_df)) +
+                "** probes have been registered.\n\n" +
+                "<!-- more -->\n\n" +
+                "|Probe ID|Region|Country|City|ASN|Network|Latitude|Longitude|\n" +
+                "|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|\n")
+        for probe in probes_df.itertuples(index=False):
+            f.write("|" + str(probe[0]) + "|" +
+                    probe[1] + "|" +
+                    probe[2] + "|" +
+                    probe[3] + "|" +
+                    str(probe[4]) + "|" +
+                    probe[5] + "|" +
+                    str(probe[6]) + "|" +
+                    str(probe[7]) + "|\n")
+
+
+def measurement_table(targets, measurements_df, yesterday, f):
+    """Iterate write objects for measurement"""
+    for i, target in enumerate(targets):
+        search_measurements = measurements_df.loc[
+            (measurements_df["_id"] == target +
+             "-" + yesterday.strftime("%Y-%m-%d"))
+        ]
+        for row in search_measurements.itertuples(index=False):
+            duration_avg = round((row[3]["total"] / row[2]), 3)
+            probes_avg = round((row[4]["total"] / row[2]), None)
+            f.write("|" + str(i) + "|" +
+                    str(row[2]) + "|" +
+                    str(row[3]["min"]) + "|" +
+                    str(row[3]["max"]) + "|" +
+                    str(duration_avg) + "|" +
+                    str(row[4]["min"]) + "|" +
+                    str(row[4]["max"]) + "|" +
+                    str(probes_avg) + "|\n")
+
+
+def results_table(targets, results_df, yesterday, f):
+    """Iterate write objects for result"""
+    for i, target in enumerate(targets):
+        search_results = results_df.loc[
+            (results_df["_id"].str.startswith(target +
+             "-" + yesterday.strftime("%Y%m%d"), na=False))
+        ]
+        f.write("\n## Probe-specific Data for Target " +
+                str(i) + "\n\n" +
+                "|Probe ID|Count|Timings[min]|Timings[max]|Timings[avg]|" +
+                "Packets[min][total, rcv]|Packets[max][total, rcv]|Packets[avg][total, rcv]|" +
+                "Percentage of Loss[avg]|\n" +
+                "|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|\n")
+        for row in search_results.itertuples(index=False):
+            timings_avg = round((row[3]["total"] / row[4]["rcv"]["total"]), 3)
+            packets_total_avg = round(
+                (row[4]["total"]["total"] / row[2]), None)
+            packets_rcv_avg = round((row[4]["rcv"]["total"] / row[2]), None)
+            packets_drop_total = row[4]["total"]["total"] - \
+                row[4]["rcv"]["total"]
+            rate_avg = round((100 * packets_drop_total /
+                             row[4]["total"]["total"]), 3)
+            f.write("|" + row[0].split("-")[-1] + "|" +
+                    str(row[2]) + "|" +
+                    str(row[3]["min"]) + "|" +
+                    str(row[3]["max"]) + "|" +
+                    str(timings_avg) + "|" +
+                    str(row[4]["total"]["min"]) + ", " + str(row[4]["rcv"]["min"]) + "|" +
+                    str(row[4]["total"]["max"]) + ", " + str(row[4]["rcv"]["max"]) + "|" +
+                    str(packets_total_avg) + ", " + str(packets_rcv_avg) + "|" +
+                    str(rate_avg) + "|\n")
+
+
+def output_daily_report(targets, client):
+    """Output daily report.md"""
+    yesterday = (datetime.now(timezone.utc) - timedelta(days=1)
+                 ).replace(hour=0, minute=0, second=0, microsecond=0)
+    measurements_df = DataFrame(client["measurements"].find())
+    results_df = DataFrame(client["results"].find())
+    daily_name = "results/source/_posts/daily/" + \
+        yesterday.strftime("%Y-%m-%d") + ".md"
+    with open(daily_name, "w", encoding="utf-8") as f:
+        f.write("---\n" +
+                "title: 'Daily report of measurements: " +
+                yesterday.strftime("%Y-%m-%d") + "'\n" +
+                "date: " +
+                yesterday.strftime("%Y/%m/%d %H:%M:%S") + "\n" +
+                "updated: " +
+                datetime.now(timezone.utc).strftime("%Y/%m/%d %H:%M:%S") +
+                "\ncomments: false\n" +
+                "categories: daily\n" +
+                "---\n\n" +
+                "## Measurements Data\n\n" +
+                "|Target|Count|Duration[min]|Duration[max]|Duration[avg]|Probes[min]|" +
+                "Probes[max]|Probes[avg]|\n" +
+                "|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|\n")
+        measurement_table(targets, measurements_df, yesterday, f)
+        f.write("\n<!-- more -->\n")
+        results_table(targets, results_df, yesterday, f)
