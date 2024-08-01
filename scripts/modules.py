@@ -148,7 +148,7 @@ def write_probe_id(measurements, client):
 def write_measurement(probes_written, client):
     """Write measurement"""
     upload = []
-    colle = "measurements-" + datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    colle = "measurements-" + datetime.now(timezone.utc).strftime("%Y%m%d")
     for measurement in probes_written:
         created_time = datetime.strptime(
             measurement["createdAt"], "%Y-%m-%dT%H:%M:%S.%fZ")
@@ -171,7 +171,7 @@ def write_measurement(probes_written, client):
 def write_result(probes_written, client):
     """Write result"""
     upload = []
-    colle = "results-" + datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    colle = "results-" + datetime.now(timezone.utc).strftime("%Y%m%d")
     for measurement in probes_written:
         for result in measurement["results"]:
             rtts = []
@@ -271,7 +271,7 @@ def write_daily_results(target, probes_count, results_df, filtered_result_ids):
 def write_daily(targets, client):
     """Write daily"""
     yesterday = (datetime.now(timezone.utc) -
-                 timedelta(days=1)).strftime("%Y-%m-%d")
+                 timedelta(days=1)).strftime("%Y%m%d")
     measurements_df = DataFrame(client["measurements-" + yesterday].find())
     results_df = DataFrame(client["results-" + yesterday].find())
     probes_count = DataFrame(client["probes"].find())["_id"].tolist()[-1]
@@ -294,7 +294,7 @@ def write_daily(targets, client):
 def drop_colle(client):
     """Drop temporary collections"""
     yesterday = (datetime.now(timezone.utc) -
-                 timedelta(days=1)).strftime("%Y-%m-%d")
+                 timedelta(days=1)).strftime("%Y%m%d")
     client["measurements-" + yesterday].drop()
     client["results-" + yesterday].drop()
 
@@ -334,7 +334,7 @@ def measurement_table(targets, measurements_df, yesterday, f):
     for i, target in enumerate(targets):
         search_measurements = measurements_df.loc[
             (measurements_df["_id"] == target +
-             "-" + yesterday.strftime("%Y-%m-%d"))
+             "-" + yesterday.strftime("%Y%m%d"))
         ]
         for row in search_measurements.itertuples(index=False):
             duration_avg = round((row[3]["total"] / row[2]), 3)
@@ -389,11 +389,11 @@ def output_daily_report(targets, client):
     measurements_df = DataFrame(client["measurements"].find())
     results_df = DataFrame(client["results"].find())
     daily_name = "results/source/_posts/daily/" + \
-        yesterday.strftime("%Y-%m-%d") + ".md"
+        yesterday.strftime("%Y%m%d") + ".md"
     with open(daily_name, "w", encoding="utf-8") as f:
         f.write("---\n" +
                 "title: 'Daily report of measurements: " +
-                yesterday.strftime("%Y-%m-%d") + "'\n" +
+                yesterday.strftime("%Y/%m/%d") + "'\n" +
                 "date: " +
                 yesterday.strftime("%Y/%m/%d %H:%M:%S") + "\n" +
                 "updated: " +
