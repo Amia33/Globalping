@@ -309,7 +309,7 @@ def output_probes(client):
                 "updated: " +
                 datetime.now(timezone.utc).strftime("%Y/%m/%d %H:%M:%S") +
                 "\ncomments: false\n" +
-                "categories: probes\n" +
+                "categories: Probes\n" +
                 "sticky: 50\n" +
                 "---\n\n" +
                 "**" +
@@ -399,7 +399,7 @@ def output_daily_report(targets, client):
                 "updated: " +
                 datetime.now(timezone.utc).strftime("%Y/%m/%d %H:%M:%S") +
                 "\ncomments: false\n" +
-                "categories: daily\n" +
+                "categories: Daily\n" +
                 "---\n\n" +
                 "## Measurements Data\n\n" +
                 "|Target|Count|Duration[min]|Duration[max]|Duration[avg]|Probes[min]|" +
