@@ -6,6 +6,7 @@ from datetime import (
     timezone,
     timedelta
 )
+from dateutil.relativedelta import relativedelta
 from pymongo import MongoClient
 from pandas import (
     DataFrame,
@@ -389,7 +390,7 @@ def output_daily_report(targets, client):
     measurements_df = DataFrame(client["measurements"].find())
     results_df = DataFrame(client["results"].find())
     daily_name = "results/source/_posts/daily/" + \
-        yesterday.strftime("%Y%m%d") + ".md"
+        yesterday.strftime("%Y/%m/%d") + ".md"
     with open(daily_name, "w", encoding="utf-8") as f:
         f.write("---\n" +
                 "title: 'Daily report of measurements: " +
@@ -408,3 +409,192 @@ def output_daily_report(targets, client):
         measurement_table(targets, measurements_df, yesterday, f)
         f.write("\n<!-- more -->\n")
         results_table(targets, results_df, yesterday, f)
+
+
+def gendates_weekly():
+    """Generate dates list of last week"""
+    dates = []
+    end = datetime.now(timezone.utc).replace(
+        hour=0, minute=0, second=0, microsecond=0)
+    start = end - timedelta(weeks=1)
+    while start < end:
+        dates.append(start)
+        start += timedelta(days=1)
+    return dates
+
+
+def long_measurement_table(targets, measurements_df, dates, f):
+    """Iterate write objects for measurement"""
+    for i, target in enumerate(targets):
+        search_ids = [target + "-" + date for date in dates]
+        search_measurements = measurements_df.loc[
+            (measurements_df["_id"].isin(search_ids))
+        ]
+        counts = sum(search_measurements["count"].tolist())
+        durations = json_normalize(search_measurements["duration"])
+        probes = json_normalize(search_measurements["probes"])
+        duration_avg = round((sum(durations["total"].tolist()) / counts), 3)
+        probes_avg = round((sum(probes["total"].tolist()) / counts), None)
+        f.write("|" + str(i) + "|" +
+                str(counts) + "|" +
+                str(min(durations["min"].tolist())) + "|" +
+                str(max(durations["max"].tolist())) + "|" +
+                str(duration_avg) + "|" +
+                str(min(probes["min"].tolist())) + "|" +
+                str(max(probes["max"].tolist())) + "|" +
+                str(probes_avg) + "|\n")
+
+
+def long_results_table(targets, results_df, dates, f, probes_count):
+    """Iterate write objects for result"""
+    for i, target in enumerate(targets):
+        f.write("\n## Probe-specific Data for Target " +
+                str(i) + "\n\n" +
+                "|Probe ID|Count|Timings[min]|Timings[max]|Timings[avg]|" +
+                "Packets[min][total, rcv]|Packets[max][total, rcv]|Packets[avg][total, rcv]|" +
+                "Percentage of Loss[avg]|\n" +
+                "|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|\n")
+        for probe_id in range(1, probes_count + 1):
+            search_ids = [target + "-" + date +
+                          "-" + probe_id for date in dates]
+            search_results = results_df.loc[
+                (results_df["_id"].isin(search_ids))
+            ]
+            if search_results.empty is True:
+                continue
+            timings = json_normalize(search_results["timings"])
+            totals = json_normalize(json_normalize(
+                search_results["packets"])["total"])
+            rcvs = json_normalize(json_normalize(
+                search_results["packets"])["rcv"])
+            packets_drop_total = sum(totals["total"].tolist()) - \
+                sum(rcvs["total"].tolist())
+            rate_avg = round((100 * packets_drop_total /
+                             sum(totals["total"].tolist())), 3)
+            f.write("|" + str(probe_id) + "|" +
+                    str(sum(search_results["count"].tolist())) + "|" +
+                    str(min(timings["min"].tolist())) + "|" +
+                    str(max(timings["max"].tolist())) + "|" +
+                    str(round(
+                        (sum(timings["total"].tolist()) / sum(rcvs["total"].tolist())), 3)) + "|" +
+                    str(min(totals["min"].tolist())) + ", " + str(min(rcvs["min"].tolist())) + "|" +
+                    str(max(totals["max"].tolist())) + ", " + str(max(rcvs["max"].tolist())) + "|" +
+                    str(round(
+                        (sum(totals["total"].tolist()) /
+                         sum(search_results["count"].tolist())),
+                        None)) +
+                    ", " + str(round(
+                        (sum(rcvs["total"].tolist()) /
+                         sum(search_results["count"].tolist())),
+                        None)) +
+                    "|" + str(rate_avg) + "|\n")
+
+
+def output_weekly_report(targets, client, dates):
+    """Output weekly report.md"""
+    measurements_df = DataFrame(client["measurements"].find())
+    results_df = DataFrame(client["results"].find())
+    probes_count = DataFrame(client["probes"].find())["_id"].tolist()[-1]
+    filename = "results/source/_posts/weekly/" + \
+        dates[0].strftime("%G/%V") + ".md"
+    with open(filename, "w", encoding="utf-8") as f:
+        f.write("---\n" +
+                "title: 'Weekly report of measurements: " +
+                dates[0].strftime("Year %G Week %V") + "'\n" +
+                "date: " +
+                dates[0].strftime("%Y/%m/%d %H:%M:%S") + "\n" +
+                "updated: " +
+                datetime.now(timezone.utc).strftime("%Y/%m/%d %H:%M:%S") +
+                "\ncomments: false\n" +
+                "categories: Weekly\n" +
+                "---\n\n" +
+                dates[0].strftime("Year %G Week %V") + " is a period from " +
+                dates[0].strftime("%Y/%m/%d") + " to " + dates[-1].strftime("%Y/%m/%d") +
+                ".\n\n## Measurements Data\n\n" +
+                "|Target|Count|Duration[min]|Duration[max]|Duration[avg]|Probes[min]|" +
+                "Probes[max]|Probes[avg]|\n" +
+                "|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|\n")
+        dates = [date.strftime("%Y%m%d") for date in dates]
+        long_measurement_table(targets, measurements_df, dates, f)
+        f.write("\n<!-- more -->\n")
+        long_results_table(targets, results_df, dates, f, probes_count)
+
+
+def gendates_monthly():
+    """Generate dates list of last month"""
+    dates = []
+    end = datetime.now(timezone.utc).replace(
+        hour=0, minute=0, second=0, microsecond=0)
+    start = end - relativedelta(months=1)
+    while start < end:
+        dates.append(start)
+        start += timedelta(days=1)
+    return dates
+
+
+def output_monthly_report(targets, client, dates):
+    """Output monthly report.md"""
+    measurements_df = DataFrame(client["measurements"].find())
+    results_df = DataFrame(client["results"].find())
+    probes_count = DataFrame(client["probes"].find())["_id"].tolist()[-1]
+    filename = "results/source/_posts/monthly/" + \
+        dates[0].strftime("%Y/%m") + ".md"
+    with open(filename, "w", encoding="utf-8") as f:
+        f.write("---\n" +
+                "title: 'Monthly report of measurements: " +
+                dates[0].strftime("%Y/%m") + "'\n" +
+                "date: " +
+                dates[0].strftime("%Y/%m/%d %H:%M:%S") + "\n" +
+                "updated: " +
+                datetime.now(timezone.utc).strftime("%Y/%m/%d %H:%M:%S") +
+                "\ncomments: false\n" +
+                "categories: Monthly\n" +
+                "---\n\n" +
+                "## Measurements Data\n\n" +
+                "|Target|Count|Duration[min]|Duration[max]|Duration[avg]|Probes[min]|" +
+                "Probes[max]|Probes[avg]|\n" +
+                "|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|\n")
+        dates = [date.strftime("%Y%m%d") for date in dates]
+        long_measurement_table(targets, measurements_df, dates, f)
+        f.write("\n<!-- more -->\n")
+        long_results_table(targets, results_df, dates, f, probes_count)
+
+
+def gendates_yearly():
+    """Generate dates list of last year"""
+    dates = []
+    end = datetime.now(timezone.utc).replace(
+        hour=0, minute=0, second=0, microsecond=0)
+    start = end - relativedelta(years=1)
+    while start < end:
+        dates.append(start)
+        start += timedelta(days=1)
+    return dates
+
+
+def output_yearly_report(targets, client, dates):
+    """Output yearly report.md"""
+    measurements_df = DataFrame(client["measurements"].find())
+    results_df = DataFrame(client["results"].find())
+    probes_count = DataFrame(client["probes"].find())["_id"].tolist()[-1]
+    filename = "results/source/_posts/yearly/" + \
+        dates[0].strftime("%Y") + ".md"
+    with open(filename, "w", encoding="utf-8") as f:
+        f.write("---\n" +
+                "title: 'Monthly report of measurements: " +
+                dates[0].strftime("Year %Y") + "'\n" +
+                "date: " +
+                dates[0].strftime("%Y/%m/%d %H:%M:%S") + "\n" +
+                "updated: " +
+                datetime.now(timezone.utc).strftime("%Y/%m/%d %H:%M:%S") +
+                "\ncomments: false\n" +
+                "categories: Yearly\n" +
+                "---\n\n" +
+                "## Measurements Data\n\n" +
+                "|Target|Count|Duration[min]|Duration[max]|Duration[avg]|Probes[min]|" +
+                "Probes[max]|Probes[avg]|\n" +
+                "|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|\n")
+        dates = [date.strftime("%Y%m%d") for date in dates]
+        long_measurement_table(targets, measurements_df, dates, f)
+        f.write("\n<!-- more -->\n")
+        long_results_table(targets, results_df, dates, f, probes_count)

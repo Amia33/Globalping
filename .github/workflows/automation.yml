@@ -34,6 +34,9 @@ jobs:
           mv README.md.new README.md
       - name: Perform Daily
         if: ${{ github.event.schedule == '11 6 * * *' }}
+        env:
+          TARGETS: ${{ secrets.TARGETS }}
+          CONN_STR: ${{ secrets.CONN_STR }}
         run: |
           started=$(date -u +%Y-%m-%dT%T.%3NZ)
           python scripts/daily.py
@@ -43,6 +46,9 @@ jobs:
           mv README.md.new README.md
       - name: Perform Weekly
         if: ${{ github.event.schedule == '27 6 * * 1' }}
+        env:
+          TARGETS: ${{ secrets.TARGETS }}
+          CONN_STR: ${{ secrets.CONN_STR }}
         run: |
           started=$(date -u +%Y-%m-%dT%T.%3NZ)
           python scripts/weekly.py
@@ -52,6 +58,9 @@ jobs:
           mv README.md.new README.md
       - name: Perform Monthly
         if: ${{ github.event.schedule == '36 6 1 * *' }}
+        env:
+          TARGETS: ${{ secrets.TARGETS }}
+          CONN_STR: ${{ secrets.CONN_STR }}
         run: |
           started=$(date -u +%Y-%m-%dT%T.%3NZ)
           python scripts/monthly.py
@@ -61,6 +70,9 @@ jobs:
           mv README.md.new README.md
       - name: Perform Yearly
         if: ${{ github.event.schedule == '50 6 1 1 *' }}
+        env:
+          TARGETS: ${{ secrets.TARGETS }}
+          CONN_STR: ${{ secrets.CONN_STR }}
         run: |
           started=$(date -u +%Y-%m-%dT%T.%3NZ)
           python scripts/yearly.py
