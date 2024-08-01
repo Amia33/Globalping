@@ -9,4 +9,6 @@ sticky: 100
 
 Globalping Automation
 
+## Workflow
+
 ![Flowchart](https://ping.amia.work/flowchart.png)
