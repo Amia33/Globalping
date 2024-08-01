@@ -101,7 +101,7 @@ def connect(conn_str):
 def write_probe_id(measurements, client):
     "Write probe id"
     for measurement in measurements:
-        current_probes = DataFrame(client["probes"].find())
+        current_probes = DataFrame(client["probes"].find()).sort_values("_id")
         upload = []
         try:
             new_probe = current_probes["_id"].tolist()[-1] + 1
@@ -275,7 +275,8 @@ def write_daily(targets, client):
                  timedelta(days=1)).strftime("%Y%m%d")
     measurements_df = DataFrame(client["measurements-" + yesterday].find())
     results_df = DataFrame(client["results-" + yesterday].find())
-    probes_count = DataFrame(client["probes"].find())["_id"].tolist()[-1]
+    probes_count = DataFrame(client["probes"].find()).sort_values("_id")[
+        "_id"].tolist()[-1]
     measurements_upload = []
     for target in targets:
         filtered_measurements = measurements_df.loc[
@@ -302,7 +303,7 @@ def drop_colle(client):
 
 def output_probes(client):
     """Output probes.md"""
-    probes_df = DataFrame(client["probes"].find())
+    probes_df = DataFrame(client["probes"].find().sort_values("_id"))
     with open("results/source/_posts/probes.md", "w", encoding="utf-8") as f:
         f.write("---\n" +
                 "title: Probes\n" +
@@ -494,7 +495,8 @@ def output_weekly_report(targets, client, dates):
     """Output weekly report.md"""
     measurements_df = DataFrame(client["measurements"].find())
     results_df = DataFrame(client["results"].find())
-    probes_count = DataFrame(client["probes"].find())["_id"].tolist()[-1]
+    probes_count = DataFrame(client["probes"].find()).sort_values("_id")[
+        "_id"].tolist()[-1]
     filename = "results/source/_posts/weekly/" + \
         dates[0].strftime("%G/%V") + ".md"
     with open(filename, "w", encoding="utf-8") as f:
@@ -536,7 +538,8 @@ def output_monthly_report(targets, client, dates):
     """Output monthly report.md"""
     measurements_df = DataFrame(client["measurements"].find())
     results_df = DataFrame(client["results"].find())
-    probes_count = DataFrame(client["probes"].find())["_id"].tolist()[-1]
+    probes_count = DataFrame(client["probes"].find()).sort_values("_id")[
+        "_id"].tolist()[-1]
     filename = "results/source/_posts/monthly/" + \
         dates[0].strftime("%Y/%m") + ".md"
     with open(filename, "w", encoding="utf-8") as f:
@@ -576,7 +579,8 @@ def output_yearly_report(targets, client, dates):
     """Output yearly report.md"""
     measurements_df = DataFrame(client["measurements"].find())
     results_df = DataFrame(client["results"].find())
-    probes_count = DataFrame(client["probes"].find())["_id"].tolist()[-1]
+    probes_count = DataFrame(client["probes"].find()).sort_values("_id")[
+        "_id"].tolist()[-1]
     filename = "results/source/_posts/yearly/" + \
         dates[0].strftime("%Y") + ".md"
     with open(filename, "w", encoding="utf-8") as f:
