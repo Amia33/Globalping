@@ -1,3 +1,4 @@
+# pylint: disable=locally-disabled, unsubscriptable-object
 """Modules"""
 
 from time import sleep
@@ -303,7 +304,7 @@ def drop_colle(client):
 
 def output_probes(client):
     """Output probes.md"""
-    probes_df = DataFrame(client["probes"].find().sort_values("_id"))
+    probes_df = DataFrame(client["probes"].find()).sort_values("_id")
     with open("results/source/_posts/probes.md", "w", encoding="utf-8") as f:
         f.write("---\n" +
                 "title: Probes\n" +
@@ -391,7 +392,7 @@ def output_daily_report(targets, client):
     measurements_df = DataFrame(client["measurements"].find())
     results_df = DataFrame(client["results"].find())
     daily_name = "results/source/_posts/daily/" + \
-        yesterday.strftime("%Y/%m/%d") + ".md"
+        yesterday.strftime("%Y-%m-%d") + ".md"
     with open(daily_name, "w", encoding="utf-8") as f:
         f.write("---\n" +
                 "title: 'Daily report of measurements: " +
@@ -433,7 +434,7 @@ def long_measurement_table(targets, measurements_df, dates, f):
         ]
         counts = sum(search_measurements["count"].tolist())
         durations = json_normalize(search_measurements["duration"])
-        probes = json_normalize(search_measurements["probes"])
+        probes = json_normalize(search_measurements["probe_ids"])
         duration_avg = round((sum(durations["total"].tolist()) / counts), 3)
         probes_avg = round((sum(probes["total"].tolist()) / counts), None)
         f.write("|" + str(i) + "|" +
@@ -498,7 +499,7 @@ def output_weekly_report(targets, client, dates):
     probes_count = DataFrame(client["probes"].find()).sort_values("_id")[
         "_id"].tolist()[-1]
     filename = "results/source/_posts/weekly/" + \
-        dates[0].strftime("%G/%V") + ".md"
+        dates[0].strftime("%G-%V") + ".md"
     with open(filename, "w", encoding="utf-8") as f:
         f.write("---\n" +
                 "title: 'Weekly report of measurements: " +
@@ -541,7 +542,7 @@ def output_monthly_report(targets, client, dates):
     probes_count = DataFrame(client["probes"].find()).sort_values("_id")[
         "_id"].tolist()[-1]
     filename = "results/source/_posts/monthly/" + \
-        dates[0].strftime("%Y/%m") + ".md"
+        dates[0].strftime("%Y-%m") + ".md"
     with open(filename, "w", encoding="utf-8") as f:
         f.write("---\n" +
                 "title: 'Monthly report of measurements: " +
