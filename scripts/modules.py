@@ -458,35 +458,34 @@ def long_results_table(targets, results_df, dates, f, probes_count):
                 "|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|:----:|\n")
         for probe_id in range(1, probes_count + 1):
             search_ids = [target + "-" + date +
-                          "-" + probe_id for date in dates]
+                          "-" + str(probe_id) for date in dates]
             search_results = results_df.loc[
                 (results_df["_id"].isin(search_ids))
             ]
             if search_results.empty is True:
                 continue
             timings = json_normalize(search_results["timings"])
-            totals = json_normalize(json_normalize(
-                search_results["packets"])["total"])
-            rcvs = json_normalize(json_normalize(
-                search_results["packets"])["rcv"])
-            packets_drop_total = sum(totals["total"].tolist()) - \
-                sum(rcvs["total"].tolist())
+            packets = json_normalize(search_results["packets"])
+            packets_drop_total = sum(packets["total.total"].tolist()) - \
+                sum(packets["rcv.total"].tolist())
             rate_avg = round((100 * packets_drop_total /
-                             sum(totals["total"].tolist())), 3)
+                             sum(packets["total.total"].tolist())), 3)
             f.write("|" + str(probe_id) + "|" +
                     str(sum(search_results["count"].tolist())) + "|" +
                     str(min(timings["min"].tolist())) + "|" +
                     str(max(timings["max"].tolist())) + "|" +
+                    str(round((sum(timings["total"].tolist()) /
+                               sum(packets["rcv.total"].tolist())), 3)) + "|" +
+                    str(min(packets["total.min"].tolist())) + ", " +
+                    str(min(packets["rcv.min"].tolist())) + "|" +
+                    str(max(packets["total.max"].tolist())) + ", " +
+                    str(max(packets["rcv.max"].tolist())) + "|" +
                     str(round(
-                        (sum(timings["total"].tolist()) / sum(rcvs["total"].tolist())), 3)) + "|" +
-                    str(min(totals["min"].tolist())) + ", " + str(min(rcvs["min"].tolist())) + "|" +
-                    str(max(totals["max"].tolist())) + ", " + str(max(rcvs["max"].tolist())) + "|" +
-                    str(round(
-                        (sum(totals["total"].tolist()) /
+                        (sum(packets["total.total"].tolist()) /
                          sum(search_results["count"].tolist())),
                         None)) +
                     ", " + str(round(
-                        (sum(rcvs["total"].tolist()) /
+                        (sum(packets["rcv.total"].tolist()) /
                          sum(search_results["count"].tolist())),
                         None)) +
                     "|" + str(rate_avg) + "|\n")
