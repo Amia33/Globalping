@@ -4,6 +4,8 @@ Globalping Automation
 
 ## Status
 
+[![Automation](https://github.com/Amia33/Globalping/actions/workflows/automation.yml/badge.svg)](https://github.com/Amia33/Globalping/actions/workflows/automation.yml) [![CodeQL](https://github.com/Amia33/Globalping/actions/workflows/codeql.yml/badge.svg)](https://github.com/Amia33/Globalping/actions/workflows/codeql.yml) [![Dependabot Updates](https://github.com/Amia33/Globalping/actions/workflows/dependabot/dependabot-updates/badge.svg)](https://github.com/Amia33/Globalping/actions/workflows/dependabot/dependabot-updates)
+
 |  Task   |         Started          |          Ended           |
 | :-----: | :----------------------: | :----------------------: |
 | Measure | 2024-08-02T10:42:16.018Z | 2024-08-02T10:42:47.526Z |
