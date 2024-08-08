@@ -1,13 +1,13 @@
 ---
 title: Probes
 date: 2024/08/01 00:00:00
-updated: 2024/08/07 06:33:56
+updated: 2024/08/08 06:34:26
 comments: false
 categories: Probes
 sticky: 50
 ---
 
-**991** probes have been registered.
+**1015** probes have been registered.
 
 <!-- more -->
 
@@ -1004,3 +1004,27 @@ sticky: 50
 |989|Western Europe|AT|Vienna|8447|A1 Telekom Austria AG|48.09997|16.28418|
 |990|Southern Europe|GR|Neos Marmaras|6799|Ote SA (Hellenic Telecommunications Organisation)|40.0961|23.7832|
 |991|Northern Europe|NO|Oslo|53356|Free Range Cloud Hosting Inc.|59.9127|10.7461|
+|992|Northern America|CA|Montreal|577|Bell Canada|45.5699|-73.692|
+|993|Western Europe|CH|Lausanne|6730|Sunrise GmbH|46.529|6.5626|
+|994|Southern Europe|PT|Barreiro|3243|MEO - SERVICOS DE COMUNICACOES E MULTIMEDIA S.A.|38.6631|-9.0724|
+|995|Northern Europe|GB|Bury St Edmunds|20712|Andrews & Arnold Ltd|52.4858|0.5194|
+|996|South-eastern Asia|MY|Cyberjaya|132372|GB Network Solutions Sdn. Bhd.|2.9225|101.655|
+|997|Western Europe|NL|Zaanstad|33915|Ziggo|52.6985|4.8128|
+|998|Western Asia|SA|Riyadh|25019|Saudi Telecom Company JSC|24.6877|46.7219|
+|999|Southern Europe|IT|Bologna|1267|Wind Tre S.p.A.|44.49386|11.33856|
+|1000|Northern Europe|DK|Esbjerg|39642|Norlys|55.4692|8.4496|
+|1001|Northern America|US|Santa Clara|132203|Tencent Building, Kejizhongyi Avenue|37.3541|-121.9552|
+|1002|Northern Europe|DK|Hjorring|39642|Norlys Digital A/S|57.4642|9.9823|
+|1003|Eastern Europe|RU|Yekaterinburg|206873|GalaxyStar LLC|56.8519|60.6122|
+|1004|Eastern Europe|UA|Kyiv|60068|Datacamp Limited|50.4547|30.5238|
+|1005|South-eastern Asia|SG|Singapore|215859|Hetzner Online GmbH|1.2897|103.8501|
+|1006|Eastern Europe|SK|Bratislava|61424|eServer s.r.o.|48.1482|17.1067|
+|1007|Northern America|US|Birmingham|7018|AT&T Services Inc.|33.52073|-86.80265|
+|1008|South America|BR|Belo Horizonte|52532|Speednet Telecomunicações Ltda ME|-19.9208|-43.9378|
+|1009|South America|BR|Cachoeiro de Itapemirim|263526|New Tecnologia Da Informacao Ltda|-20.769|-41.188|
+|1010|Southern Asia|IN|Mumbai|13335|Cloudflare, Inc.|19.0728|72.8826|
+|1011|South America|BR|Recife|26599|TELEFÔNICA BRASIL S.A|-8.0539|-34.8811|
+|1012|Western Europe|DE|Essen|8881|1&1 Versatel Deutschland GmbH|51.4566|7.0123|
+|1013|Western Europe|DE|Dusseldorf|6805|Telefonica Germany GmbH & Co.OHG|51.18539|6.44172|
+|1014|Western Europe|AT|Vienna|51184|Fonira Telekom GmbH|48.3833|16.2167|
+|1015|Southern Europe|IT|Milan|202422|G-Core Labs S.A.|45.4643|9.1895|
