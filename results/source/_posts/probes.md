@@ -1,13 +1,13 @@
 ---
 title: Probes
 date: 2024/08/01 00:00:00
-updated: 2024/08/10 06:32:05
+updated: 2024/08/11 06:33:32
 comments: false
 categories: Probes
 sticky: 50
 ---
 
-**1158** probes have been registered.
+**1171** probes have been registered.
 
 <!-- more -->
 
@@ -1171,3 +1171,16 @@ sticky: 50
 |1156|Northern Europe|GB|Southampton|20860|IOMART CLOUD SERVICES LIMITED|50.85|-1.1667|
 |1157|Western Europe|AT|Vienna|51184|Fonira Telekom GmbH|48.2028|16.5508|
 |1158|South-eastern Asia|SG|Singapore|16509|Amazon.com, Inc.|1.2897|103.8501|
+|1159|Eastern Asia|KR|Seoul|8075|Microsoft Corporation|37.566|126.9784|
+|1160|South-eastern Asia|SG|Singapore|31898|Oracle Corporation|1.3778|103.9594|
+|1161|Northern Europe|GB|Glasgow|5378|Vodafone UK|55.9135|-4.4084|
+|1162|South America|BR|Frederico Westphalen|53169|Tche Turbo Provedor de Internet Ltda|-27.54917|-53.50417|
+|1163|Eastern Europe|PL|Tarnow|21021|Multimedia Polska Sp. z o.o.|49.96911|20.60606|
+|1164|Northern America|US|Dallas|26930|Parallax|32.7831|-96.8067|
+|1165|South America|BR|Sao Paulo|18881|TELEFÔNICA BRASIL S.A|-23.5325|-46.7917|
+|1166|Western Europe|DE|Dusseldorf|6805|Telefonica Germany GmbH & Co.OHG|51.2563|7.1482|
+|1167|Western Europe|DE|Dortmund|6805|Telefonica Germany GmbH & Co.OHG|51.51494|7.466|
+|1168|Western Europe|DE|Hamburg|6805|Telefonica Germany GmbH & Co.OHG|53.4357|10.3779|
+|1169|Eastern Asia|HK|Hong Kong|133398|Tele Asia Limited|22.2783|114.1747|
+|1170|Northern America|US|Seattle|209|CenturyLink Communications, LLC|47.474|-122.261|
+|1171|South-eastern Asia|MY|Kuala Lumpur|56286|IX Telecom|3.1412|101.6865|
