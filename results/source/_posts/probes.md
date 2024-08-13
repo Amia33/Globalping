@@ -1,13 +1,13 @@
 ---
 title: Probes
 date: 2024/08/01 00:00:00
-updated: 2024/08/12 06:34:40
+updated: 2024/08/13 06:34:52
 comments: false
 categories: Probes
 sticky: 50
 ---
 
-**1182** probes have been registered.
+**1199** probes have been registered.
 
 <!-- more -->
 
@@ -1195,3 +1195,20 @@ sticky: 50
 |1180|Western Europe|DE|Hamburg|6805|O2 Deutschland|53.5649|9.9683|
 |1181|Southern Asia|IN|Kolkata|13335|Cloudflare, Inc.|22.5626|88.363|
 |1182|Western Europe|NL|Utrecht|1136|KPN B.V.|52.0908|5.1222|
+|1183|Northern America|CA|Winnipeg|394352|FlexNetworks|49.8848|-97.14704|
+|1184|Northern America|US|Atlanta|7018|AT&T Services, Inc.|33.9243|-84.3785|
+|1185|Southern Asia|IN|Kolkata|23860|Alliance Broadband Services Pvt. Ltd.|22.6334|88.4229|
+|1186|South-eastern Asia|ID|Malang|23700|Linknet-Fastnet ASN|-7.97998|112.6302|
+|1187|Northern Europe|DK|Esbjerg|39642|Norlys|55.5147|8.3911|
+|1188|Middle Africa|AO|Luanda|329007|ELENDE - TECNOLOGIAS DE INFORMACAO - COMERCIO E SERVICOS, LDA|-8.8368|13.2343|
+|1189|Southern Africa|ZA|Cape Town|328029|Web Telecom Services (PTY) Ltd|-33.9258|18.4232|
+|1190|Southern Europe|ES|Zaragoza|16509|Amazon.com, Inc.|41.6561|-0.8773|
+|1191|Northern America|US|Port Saint Lucie|23089|Hotwire Communications|27.4467|-80.3256|
+|1192|Northern America|US|West Palm Beach|7018|AT&T Services, Inc.|26.9342|-80.0942|
+|1193|Southern Africa|ZA|Cape Town|11845|Vox Telecom Ltd|-33.9258|18.4232|
+|1194|Northern America|US|Washington|701|Verizon Business|38.882|-76.9925|
+|1195|Western Europe|DE|Dusseldorf|6805|O2 Deutschland|51.4579|6.8931|
+|1196|Western Europe|NL|Dronten|34872|Sarah Rossius trading as Servperso Systems|52.525|5.7181|
+|1197|Southern Europe|PT|Porto|2860|Nos Comunicacoes S.A.|41.18259|-8.55811|
+|1198|Eastern Europe|PL|Czestochowa|39489|Stowarzyszenie Milosnikow Internetu INDS|50.79646|19.12409|
+|1199|Eastern Europe|SK|Bratislava|6855|Slovak Telekom|48.157|17.0915|
