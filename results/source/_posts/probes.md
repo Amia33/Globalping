@@ -1,13 +1,13 @@
 ---
 title: Probes
 date: 2024/08/01 00:00:00
-updated: 2024/08/14 06:33:53
+updated: 2024/08/15 06:34:55
 comments: false
 categories: Probes
 sticky: 50
 ---
 
-**1207** probes have been registered.
+**1215** probes have been registered.
 
 <!-- more -->
 
@@ -1220,3 +1220,11 @@ sticky: 50
 |1205|Western Europe|FR|Montpellier|3215|Orange S.A.|43.6109|3.8763|
 |1206|Northern Europe|GB|Glasgow|5378|Vodafone UK|55.9452|-4.0052|
 |1207|Southern Europe|PT|Lisbon|6424|EDGOO NETWORKS UNIPESSOAL LDA|38.7167|-9.1333|
+|1208|South America|BR|Bento Goncalves|52610|Giga Provedor de Internet Ltda|-28.93611|-51.54944|
+|1209|South America|BR|Sao Paulo|26599|Telefonica Brasil S.A|-23.54712|-46.63719|
+|1210|Eastern Europe|BG|Sofia|9070|Cooolbox AD|42.6975|23.3241|
+|1211|Eastern Europe|RU|Moscow|50516|Maxiplace Ltd.|55.7522|37.6156|
+|1212|Northern America|US|Washington|174|Cogent Communications|38.8951|-77.0364|
+|1213|Western Europe|NL|Dronten|60404|The Infrastructure Group B.V.|52.5273|5.7228|
+|1214|Southern Europe|ES|Barcelona|26141|CubePath|41.3888|2.159|
+|1215|Western Europe|DE|Dusseldorf|6805|Telefonica Germany GmbH & Co.OHG|51.33911|6.58541|
