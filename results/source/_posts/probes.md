@@ -1,13 +1,13 @@
 ---
 title: Probes
 date: 2024/08/01 00:00:00
-updated: 2024/08/17 06:31:39
+updated: 2024/08/18 06:33:03
 comments: false
 categories: Probes
 sticky: 50
 ---
 
-**1244** probes have been registered.
+**1252** probes have been registered.
 
 <!-- more -->
 
@@ -1257,3 +1257,11 @@ sticky: 50
 |1242|Northern Europe|GB|Glasgow|5378|Vodafone UK|55.8319|-4.4322|
 |1243|Western Europe|DE|Mannheim|12312|ecotel communication ag|49.4077|8.6908|
 |1244|South-eastern Asia|ID|Jakarta|23700|Linknet-Fastnet ASN|-6.4|106.8186|
+|1245|Western Europe|DE|Hamburg|6805|Telefonica Germany GmbH & Co.OHG|53.3264|9.8681|
+|1246|Southern Africa|ZA|Johannesburg|328366|FIRSTNET TECHNOLOGY SERVICES (PTY) LTD|-26.2023|28.0436|
+|1247|South-eastern Asia|SG|Singapore|38136|Akari Networks|1.2897|103.8501|
+|1248|Northern America|US|Denver|209|CenturyLink Communications, LLC|39.9528|-105.1686|
+|1249|Eastern Asia|CN|Beijing|56048|China Mobile Communicaitons Corporation|39.9075|116.3972|
+|1250|Western Europe|DE|Koln|12312|ecotel communication ag|50.9333|6.95|
+|1251|Western Europe|DE|Koblenz|8881|1&1 Versatel Deutschland GmbH|50.48333|7.6|
+|1252|Western Europe|AT|Favoriten|51184|Fonira Telekom GmbH|47.928|16.2165|
