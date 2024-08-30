@@ -1,13 +1,13 @@
 ---
 title: Probes
 date: 2024/08/01 00:00:00
-updated: 2024/08/29 06:35:03
+updated: 2024/08/30 06:35:05
 comments: false
 categories: Probes
 sticky: 50
 ---
 
-**1367** probes have been registered.
+**1377** probes have been registered.
 
 <!-- more -->
 
@@ -1380,3 +1380,13 @@ sticky: 50
 |1365|Northern America|US|Naperville|397270|NetInformatik Inc.|42.0039|-87.9703|
 |1366|Northern America|US|Woodlands|7018|AT&T Services Inc.|30.08|-95.41695|
 |1367|Western Europe|NL|Apeldoorn|12414|Solcon Internetdiensten B.V.|52.3792|5.7861|
+|1368|Northern Europe|GB|London|64289|Macarne LLC|51.5111|-0.0157|
+|1369|Western Europe|NL|Amsterdam|206238|Freedom Internet BV|52.3785|4.89998|
+|1370|South America|BR|Fortaleza|272432|Magazine Luiza SA|-3.7138|-38.5285|
+|1371|Western Europe|NL|Tilburg|15435|DELTA Fiber Nederland B.V.|51.6967|4.8736|
+|1372|Western Europe|NL|Ede|200995|BIT BV|52.03333|5.65833|
+|1373|South America|BR|Sao Paulo|26599|TELEFÔNICA BRASIL S.A|-23.6639|-46.5383|
+|1374|Northern America|US|New York|14|Columbia University|40.7143|-74.006|
+|1375|Northern America|US|Lynchburg|397005|Central Virginia Services, INC|37.5851|-79.0514|
+|1376|Eastern Europe|PL|Warsaw|6830|Liberty Global B.V.|52.2286|21.0071|
+|1377|Western Europe|DE|Cologne|8422|NetCologne GmbH|50.8796|7.0821|
