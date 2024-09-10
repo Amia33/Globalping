@@ -1,13 +1,13 @@
 ---
 title: Probes
 date: 2024/08/01 00:00:00
-updated: 2024/09/09 06:38:17
+updated: 2024/09/10 06:35:18
 comments: false
 categories: Probes
 sticky: 50
 ---
 
-**1504** probes have been registered.
+**1509** probes have been registered.
 
 <!-- more -->
 
@@ -1517,3 +1517,8 @@ sticky: 50
 |1502|Western Europe|BE|Leuven|6848|Telenet BV|50.9421|4.9051|
 |1503|Eastern Europe|RU|Saint Petersburg|206873|GalaxyStar LLC|59.9386|30.3141|
 |1504|Western Europe|NL|Amsterdam|64289|Macarne LLC|52.3808|4.6368|
+|1505|South America|BR|Barreiro do Jaiba|52928|JANAJÁ SERVIÇOS LTDA|-15.6153|-43.5919|
+|1506|Western Europe|NL|Rotterdam|15435|DELTA Fiber Nederland B.V.|51.91917|4.38889|
+|1507|Northern Europe|DK|Copenhagen|203953|Hiper A/S|55.5833|12.3|
+|1508|Northern America|US|Lovingston|397005|Central Virginia Services, INC|37.7599|-78.8709|
+|1509|Western Europe|DE|Berlin|12312|ecotel communication ag|52.5244|13.4105|
