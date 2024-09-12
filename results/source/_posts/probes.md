@@ -1,13 +1,13 @@
 ---
 title: Probes
 date: 2024/08/01 00:00:00
-updated: 2024/09/11 06:35:21
+updated: 2024/09/12 06:36:06
 comments: false
 categories: Probes
 sticky: 50
 ---
 
-**1516** probes have been registered.
+**1521** probes have been registered.
 
 <!-- more -->
 
@@ -1529,3 +1529,8 @@ sticky: 50
 |1514|Northern Europe|DK|Tonder|39642|Norlys Digital A/S|54.9331|8.8667|
 |1515|Northern America|CA|Steinbach|394352|FlexNetworks|49.6056|-97.0423|
 |1516|Western Europe|NL|Amsterdam|15435|DELTA Fiber Nederland B.V.|52.46|4.65|
+|1517|Western Europe|NL|Nijmegen|201290|BlackGATE B.V.|51.7336|5.5267|
+|1518|Northern Europe|DK|Aalborg|39642|Norlys Digital A/S|57.048|9.9187|
+|1519|Western Europe|DE|Hamburg|6805|O2 Deutschland|53.5795|10.0592|
+|1520|Western Europe|DE|Dusseldorf|6805|O2 Deutschland|51.231|6.8251|
+|1521|South America|BR|Joinville|8167|V tal|-26.3044|-48.8456|
