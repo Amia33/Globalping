@@ -1,13 +1,13 @@
 ---
 title: Probes
 date: 2024/08/01 00:00:00
-updated: 2024/09/16 06:36:49
+updated: 2024/09/17 06:31:32
 comments: false
 categories: Probes
 sticky: 50
 ---
 
-**1551** probes have been registered.
+**1558** probes have been registered.
 
 <!-- more -->
 
@@ -1564,3 +1564,10 @@ sticky: 50
 |1549|Western Europe|NL|Almere Stad|41608|NextGenWebs, S.L.|52.2592|5.6069|
 |1550|Southern Europe|GR|Athens|29247|Ote SA (Hellenic Telecommunications Organisation)|37.9838|23.7278|
 |1551|Western Europe|DE|Bremen|6805|Telefonica Germany GmbH & Co.OHG|53.0511|8.6309|
+|1552|South-eastern Asia|ID|Bandung|46044|Universitas Padjadjaran|-6.9222|107.6069|
+|1553|Australia and New Zealand|AU|Canberra|4764|Aussie Broadband|-35.2896|149.1553|
+|1554|Western Europe|AT|Vienna|8447|A1 Telekom Austria AG|48.20889|16.37208|
+|1555|Northern America|US|Apopka|23314|Summit Broadband|28.5494|-81.7729|
+|1556|Northern America|US|Tacoma|209|CenturyLink Communications, LLC|47.2529|-122.4443|
+|1557|South America|BR|Marilia|263470|WAY.COM PROVEDOR BANDA LARGA EIRELI|-22.2106|-49.6561|
+|1558|Northern America|US|Aurora|209|CenturyLink Communications, LLC|39.7294|-104.8319|
